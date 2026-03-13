@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
+<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
 <div style="text-align:center; padding:40px;">
   <h2 style="color:#0D099E; font-size:2em;">
     ¡Bienvenido {{ usuario.first_name|default:usuario.username }}!
@@ -9,24 +13,49 @@
     Tu rol es: <strong style="color:#F4640B;">{{ usuario.rol|title }}</strong>
   </p>
 
+  <div id="react-widget-container" style="margin: 20px 0;"></div>
+
   {% if usuario.rol == 'alumno' %}
     <a href="/calificaciones/ver/" class="btn-orange" style="font-size:1em; padding:12px 20px; text-decoration:none; margin:8px;">Ver mis calificaciones</a>
 
   {% elif usuario.rol == 'profesor' %}
-    <!-- Botón para registrar calificación manual -->
     <a href="/calificaciones/registrar/" class="btn-orange" style="font-size:1em; padding:12px 20px; text-decoration:none; margin:8px; display:inline-block;">Registrar calificación</a>
     
-    <!-- Botón para subir archivo CSV/Excel -->
     <a href="/calificaciones/subir/" class="btn-orange" style="font-size:1em; padding:12px 20px; text-decoration:none; margin:8px; display:inline-block;">Subir archivo (CSV/Excel)</a>
     
-    <!-- ✅ Nuevo botón para ver historial y estadísticas -->
     <a href="{% url 'calificaciones:historial_profesor' %}" class="btn-orange" style="font-size:1em; padding:12px 20px; text-decoration:none; margin:8px; display:inline-block;">📊 Ver historial y estadísticas</a>
 
   {% elif usuario.rol == 'administrador' %}
-    <!-- Botón para administrar usuarios -->
     <a href="{% url 'usuarios:listar' %}" class="btn-orange" style="font-size:1em; padding:12px 20px; text-decoration:none;">
       Administrar usuarios
     </a>
   {% endif %}
 </div>
+
+{% verbatim %}
+<script type="text/babel">
+  function PruebaReact() {
+    // Un estado simple para probar la interactividad
+    const [contador, setContador] = React.useState(0);
+
+    return (
+      <div style={{ padding: '20px', border: '2px dashed #0D099E', borderRadius: '8px', display: 'inline-block', backgroundColor: '#f9f9f9' }}>
+        <h3 style={{ color: '#F4640B', margin: '0 0 10px 0' }}>¡React está vivo en la plataforma! ⚛️</h3>
+        <p>Prueba de interactividad: <strong>{contador}</strong></p>
+        <button 
+          onClick={() => setContador(contador + 1)}
+          style={{ backgroundColor: '#0D099E', color: 'white', padding: '8px 16px', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+        >
+          Sumar +1
+        </button>
+      </div>
+    );
+  }
+
+  // Renderizar el componente en el div que creamos arriba
+  const root = ReactDOM.createRoot(document.getElementById('react-widget-container'));
+  root.render(<PruebaReact />);
+</script>
+{% endverbatim %}
+
 {% endblock %}
