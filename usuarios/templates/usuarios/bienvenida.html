@@ -34,36 +34,27 @@
 
 {% verbatim %}
 <script type="text/babel">
-  function NotasRapidas() {
-    // Iniciamos el estado buscando si ya hay una nota guardada en el navegador
-    const [nota, setNota] = React.useState(localStorage.getItem('notaDashboard') || '');
-
-    // Esta función se ejecuta cada vez que el usuario teclea algo
-    const manejarCambio = (evento) => {
-      const texto = evento.target.value;
-      setNota(texto); // Actualiza lo que se ve en pantalla
-      localStorage.setItem('notaDashboard', texto); // Lo guarda en la memoria del navegador
-    };
+  function PruebaReact() {
+    // Un estado simple para probar la interactividad
+    const [contador, setContador] = React.useState(0);
 
     return (
-      <div style={{ padding: '15px', border: '1px solid #ffe69c', borderRadius: '8px', display: 'inline-block', backgroundColor: '#fff3cd', width: '300px', textAlign: 'left', boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}>
-        <h4 style={{ color: '#664d03', margin: '0 0 10px 0' }}>📝 Mis Notas Rápidas</h4>
-        <textarea 
-          value={nota}
-          onChange={manejarCambio}
-          placeholder="Escribe un recordatorio aquí..."
-          style={{ width: '100%', height: '80px', border: 'none', backgroundColor: 'transparent', resize: 'none', outline: 'none', color: '#664d03', fontFamily: 'inherit' }}
-        />
-        <div style={{ fontSize: '0.8em', color: '#997404', textAlign: 'right', marginTop: '5px' }}>
-          Se guarda automáticamente
-        </div>
+      <div style={{ padding: '20px', border: '2px dashed #0D099E', borderRadius: '8px', display: 'inline-block', backgroundColor: '#f9f9f9' }}>
+        <h3 style={{ color: '#F4640B', margin: '0 0 10px 0' }}>¡React está vivo en la plataforma! ⚛️</h3>
+        <p>Prueba de interactividad: <strong>{contador}</strong></p>
+        <button 
+          onClick={() => setContador(contador + 1)}
+          style={{ backgroundColor: '#0D099E', color: 'white', padding: '8px 16px', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+        >
+          Sumar +1
+        </button>
       </div>
     );
   }
 
   // Renderizar el componente en el div que creamos arriba
   const root = ReactDOM.createRoot(document.getElementById('react-widget-container'));
-  root.render(<NotasRapidas />);
+  root.render(<PruebaReact />);
 </script>
 {% endverbatim %}
 
